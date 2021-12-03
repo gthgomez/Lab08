@@ -1,0 +1,97 @@
+import java.util.Scanner;
+
+public class Driver {
+	Scanner input = new Scanner(System.in);
+	private Node start, tail;
+
+	public static void main(String[] args) {
+		new Driver();
+	}
+
+	public Driver() {
+		while (true) {
+			System.out.println("\n 1: add \n 2: remove \n 3: clear \n 4: display");
+			int choice = input.nextInt();
+			input.nextLine();
+			switch (choice) {
+			case 1:
+				add();
+				break;
+			case 2:
+				remove();
+				break;
+			case 3:
+				clear();
+				break;
+			case 4:
+				display();
+				break;
+			default:
+				System.exit(0);
+			}
+		}
+	}
+
+	private void add() {
+		System.out.println("Enter student name");
+		String name = input.nextLine();
+
+		System.out.println("Enter student major");
+		String major = input.nextLine();
+
+		System.out.println("Enter student net id");
+		String netId = input.nextLine();
+
+		System.out.println("Enter student uin");
+		int uin = Integer.parseInt(input.nextLine());
+
+		System.out.println("Enter student gpa");
+		double gpa = Double.parseDouble(input.nextLine());
+
+		Student student = new Student(name, major, netId, uin, gpa);
+		if (start == null) {
+			start = new Node(student, null);
+			tail = start;
+		} else {
+			tail.setNext(new Node(student, null));
+			tail = tail.getNext();
+		}
+	}
+
+	private void remove() {
+		System.out.println("add Student to remove");
+		String studentToRemove = input.nextLine().trim();
+
+		Node prev = null, del = start;
+		while (del != null && !del.getItem().getName().equals(studentToRemove)) {
+			prev = del;
+			del = del.getNext();
+		}
+		if (del == null) {
+			System.out.println("Student was not found");
+		} else {
+			if (del == start) {
+				start = start.getNext();
+			} else {
+				if (del == tail) {
+					tail = prev;
+				}
+				prev.setNext(del.getNext());
+			}
+			System.out.println("Student: " + studentToRemove + " has been deleted");
+		}
+	}
+
+	private void clear() {
+		start = null;
+	}
+
+	private void display() {
+		Node p = start;
+		while (p != null) {
+			System.out.println(p.getItem());
+			p = p.getNext();
+		}
+	}
+
+}
